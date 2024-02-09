@@ -1,0 +1,234 @@
+fileFormatVersion: 2
+guid: 2a227438228617043ba1461ce7d2bea1
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Default_Material
+    second: {fileID: 2100000, guid: 4e7cb5f4d73df814b8d87ff3765bc136, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert1
+    second: {fileID: 2100000, guid: d565e3728a17774478b75189cdcdaef8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: poclain_aiStandardSurface123
+    second: {fileID: 2100000, guid: c9038b84fb78df6418f421bee2a1a4aa, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: poclain_aiStandardSurface124
+    second: {fileID: 2100000, guid: b957a2ef8a8de6b458f94ebe1b7a1a43, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: poclain_aiStandardSurface127
+    second: {fileID: 2100000, guid: 74f1ec170ffacc54f859074eb318c87c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: poclain_aiStandardSurface129
+    second: {fileID: 2100000, guid: 33cea2f32ac910a448096f7c44e59234, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: poclain_aiStandardSurface130
+    second: {fileID: 2100000, guid: 4ba736a80b958104b9caa70931ea2b06, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: poclain_aiStandardSurface136
+    second: {fileID: 2100000, guid: c9cc4dc9a8412fa4cb4e3e5707b497d5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: poclain_aiStandardSurface137
+    second: {fileID: 2100000, guid: 613db672bbdb7ab45a9c222174fcfc8c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: poclain_aiStandardSurface139
+    second: {fileID: 2100000, guid: 4c8180fb19937684bba7f52e22f8bc39, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: poclain_aiStandardSurface141
+    second: {fileID: 2100000, guid: 0ce4384573c82a7429de8ba3ce134ff8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: poclain_aiStandardSurface142
+    second: {fileID: 2100000, guid: b2347ae01cd6b7646b5ca4b72da648ce, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: poclain_aiStandardSurface143
+    second: {fileID: 2100000, guid: fdf919c4c962c5841aeef8e594d180ed, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: poclain_aiStandardSurface144
+    second: {fileID: 2100000, guid: f31f8d805f4e03c4d898f40e585594da, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: poclain_aiStandardSurface145
+    second: {fileID: 2100000, guid: 8cfb7b01378e79a46885a687bd144afb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: poclain_aiStandardSurface146
+    second: {fileID: 2100000, guid: ec14af638afd0894e982d7a57f86f69d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: poclain_aiStandardSurface147
+    second: {fileID: 2100000, guid: 17344341cfe3b944fa9fb1acff15c4b6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: poclain_aiStandardSurface149
+    second: {fileID: 2100000, guid: e74e05c50f85ad24e92b25d9380e2e64, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: poclain_aiStandardSurface150
+    second: {fileID: 2100000, guid: bb9e599078c74de4abb6f8b8832a3c2d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: poclain_aiStandardSurface151
+    second: {fileID: 2100000, guid: 7512871055de97e4683640311ae24aff, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: poclain_aiStandardSurface152
+    second: {fileID: 2100000, guid: 9aa27c2e76c02384daf78da9463e190e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: poclain_aiStandardSurface153
+    second: {fileID: 2100000, guid: 208b13c8be08e6647bb4ec38c6628f2a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: poclain_aiStandardSurface154
+    second: {fileID: 2100000, guid: 4e5f951a241d2e444a0ed1605162f819, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: poclain_aiStandardSurface38
+    second: {fileID: 2100000, guid: b65d9b08a269f4540b018df89debd4b5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: poclain_lambert2
+    second: {fileID: 2100000, guid: d9d2089ec9e6e95469d2e2307a865a9d, type: 2}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
