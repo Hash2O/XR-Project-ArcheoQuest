@@ -2,9 +2,11 @@ using UnityEngine;
 
 public class TerrainRealTimeAlteration : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject _gameObject;
+
     public enum DeformMode { RaiseLower, Flatten, Smooth }
     DeformMode deformMode = DeformMode.RaiseLower;
-    string[] deformModeNames = new string[] { "Raise Lower", "Flatten", "Smooth" };
 
     public Terrain terrain;
     public Texture2D deformTexture;
@@ -72,17 +74,17 @@ public class TerrainRealTimeAlteration : MonoBehaviour
         terrain.gameObject.layer = 5;
         strength = 2;
         area = 2;
-        brushScaling();
+        BrushScaling();
     }
 
     void FixedUpdate()
     {
-        raycastHit();
-        wheelValuesControl();
+        AltRaycastHit();
+        WheelValuesControl();
 
         if (onTerrain && !onWindow)
         {
-            terrainDeform();
+            TerrainDeform();
         }
 
         //Update Spot Light Angle according to the Area value
@@ -91,13 +93,15 @@ public class TerrainRealTimeAlteration : MonoBehaviour
 
     //Raycast
     //______________________________________________________________________________________________________________________________
-    void raycastHit()
+    void AltRaycastHit()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         hit = new RaycastHit();
         //Do Raycast hit only against UI layer
-        if (Physics.Raycast(ray, out hit, 300, 1 << 5))
+        if (Physics.Raycast(_gameObject.transform.position, _gameObject.transform.TransformDirection(Vector3.forward), out hit, 1))
         {
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+            Debug.Log("Raycasting GameObject Did Hit " + hit.transform.name);
             onTerrain = true;
             if (buildTarget)
             {
@@ -118,76 +122,62 @@ public class TerrainRealTimeAlteration : MonoBehaviour
 
     //TerrainDeformation
     //___________________________________________________________________________________________________________________
-    void terrainDeform()
+    void TerrainDeform()
     {
-        if (Input.GetMouseButtonDown(0))
+        buildTargPos = buildTarget.position - terrain.GetPosition();
+        float x = Mathf.Clamp01(buildTargPos.x / tData.size.x);
+        float y = Mathf.Clamp01(buildTargPos.z / tData.size.z);
+        flattenTarget = tData.GetInterpolatedHeight(x, y) / tData.heightmapScale.y;
+
+        buildTargPos = buildTarget.position - terrain.GetPosition();
+
+        strengthSave = strength;
+
+        if (newTex && tData && craterData != null)
         {
-            buildTargPos = buildTarget.position - terrain.GetPosition();
-            float x = Mathf.Clamp01(buildTargPos.x / tData.size.x);
-            float y = Mathf.Clamp01(buildTargPos.z / tData.size.z);
-            flattenTarget = tData.GetInterpolatedHeight(x, y) / tData.heightmapScale.y;
-        }
-
-        //Terrain deform
-        if (Input.GetMouseButton(0))
-        {
-
-            buildTargPos = buildTarget.position - terrain.GetPosition();
-
-            if (Input.GetKey(KeyCode.LeftShift))
+            int w = (int)Mathf.Lerp(0, xRes, Mathf.InverseLerp(0, tData.size.x, buildTargPos.x));
+            int z = (int)Mathf.Lerp(0, yRes, Mathf.InverseLerp(0, tData.size.z, buildTargPos.z));
+            w = Mathf.Clamp(w, newTex.width / 2, xRes - newTex.width / 2);
+            z = Mathf.Clamp(z, newTex.height / 2, yRes - newTex.height / 2);
+            int startX = w - newTex.width / 2;
+            int startY = z - newTex.height / 2;
+            float[,] areaT = tData.GetHeights(startX, startY, newTex.width, newTex.height);
+            for (int i = 0; i < newTex.height; i++)
             {
-                strengthSave = strength;
-            }
-            else
-            {
-                strengthSave = -strength;
-            }
-
-            if (newTex && tData && craterData != null)
-            {
-                int x = (int)Mathf.Lerp(0, xRes, Mathf.InverseLerp(0, tData.size.x, buildTargPos.x));
-                int z = (int)Mathf.Lerp(0, yRes, Mathf.InverseLerp(0, tData.size.z, buildTargPos.z));
-                x = Mathf.Clamp(x, newTex.width / 2, xRes - newTex.width / 2);
-                z = Mathf.Clamp(z, newTex.height / 2, yRes - newTex.height / 2);
-                int startX = x - newTex.width / 2;
-                int startY = z - newTex.height / 2;
-                float[,] areaT = tData.GetHeights(startX, startY, newTex.width, newTex.height);
-                for (int i = 0; i < newTex.height; i++)
+                for (int j = 0; j < newTex.width; j++)
                 {
-                    for (int j = 0; j < newTex.width; j++)
+                    if (deformMode == DeformMode.RaiseLower)
                     {
-                        if (deformMode == DeformMode.RaiseLower)
-                        {
-                            areaT[i, j] = areaT[i, j] - craterData[i * newTex.width + j].a * strengthSave / 15000;
-                        }
-                        else if (deformMode == DeformMode.Flatten)
-                        {
-                            areaT[i, j] = Mathf.Lerp(areaT[i, j], flattenTarget, craterData[i * newTex.width + j].a * strengthNormalized);
-                        }
-                        else if (deformMode == DeformMode.Smooth)
-                        {
-                            if (i == 0 || i == newTex.height - 1 || j == 0 || j == newTex.width - 1)
-                                continue;
+                        areaT[i, j] = areaT[i, j] - craterData[i * newTex.width + j].a * strengthSave / 15000;
+                    }
+                    else if (deformMode == DeformMode.Flatten)
+                    {
+                        areaT[i, j] = Mathf.Lerp(areaT[i, j], flattenTarget, craterData[i * newTex.width + j].a * strengthNormalized);
+                    }
+                    else if (deformMode == DeformMode.Smooth)
+                    {
+                        if (i == 0 || i == newTex.height - 1 || j == 0 || j == newTex.width - 1)
+                            continue;
 
-                            float heightSum = 0;
-                            for (int ySub = -1; ySub <= 1; ySub++)
+                        float heightSum = 0;
+                        for (int ySub = -1; ySub <= 1; ySub++)
+                        {
+                            for (int xSub = -1; xSub <= 1; xSub++)
                             {
-                                for (int xSub = -1; xSub <= 1; xSub++)
-                                {
-                                    heightSum += areaT[i + ySub, j + xSub];
-                                }
+                                heightSum += areaT[i + ySub, j + xSub];
                             }
-
-                            areaT[i, j] = Mathf.Lerp(areaT[i, j], (heightSum / 9), craterData[i * newTex.width + j].a * strengthNormalized);
                         }
+
+                        areaT[i, j] = Mathf.Lerp(areaT[i, j], (heightSum / 9), craterData[i * newTex.width + j].a * strengthNormalized);
                     }
                 }
-                tData.SetHeights(x - newTex.width / 2, z - newTex.height / 2, areaT);
             }
+            tData.SetHeights(w - newTex.width / 2, z - newTex.height / 2, areaT);
+
         }
     }
 
-    void brushScaling()
+    void BrushScaling()
     {
         //Apply current deform texture resolution 
         newTex = Instantiate(deformTexture) as Texture2D;
@@ -196,7 +186,7 @@ public class TerrainRealTimeAlteration : MonoBehaviour
         craterData = newTex.GetPixels();
     }
 
-    void wheelValuesControl()
+    void WheelValuesControl()
     {
         float mouseWheel = Input.GetAxis("Mouse ScrollWheel");
         if (Mathf.Abs(mouseWheel) > 0.0)
@@ -253,91 +243,8 @@ public class TerrainRealTimeAlteration : MonoBehaviour
                     }
                 }
             }
-            if (area > 1)
-                brushScaling();
+            if (area > 1) BrushScaling();
         }
-    }
-
-    //GUI
-    //______________________________________________________________________________________________________________________________
-    void OnGUI()
-    {
-        windowRect = GUI.Window(0, windowRect, TerrainEditorWindow, "Terrain Sculptor");
-
-        GUILayout.BeginArea(new Rect(Screen.width - 70, 10, 60, 30));
-        showHelp = GUILayout.Toggle(showHelp, "(Help)", new GUILayoutOption[] { GUILayout.Width(60.0f), GUILayout.Height(30.0f) });
-        GUILayout.EndArea();
-
-        if (showHelp)
-        {
-            //Help window properties
-            GUI.Window(1, new Rect(Screen.width - 410, 50, 400, 120), HelpWindow, "Help Window");
-        }
-    }
-
-    //Help window display tips and tricks
-    void HelpWindow(int windowId)
-    {
-        GUILayout.BeginVertical("box");
-        {
-            GUILayout.Label("- Mouse wheel - area change");
-            GUILayout.Label("- Mouse wheel + Shift - strength change");
-            GUILayout.Label("- Hold Shift in RaiseLower mode to lower terrain");
-        }
-        GUILayout.EndVertical();
-    }
-
-    void TerrainEditorWindow(int windowId)
-    {
-        //Detect when mouse cursor inside region (TerrainEditorWindow)
-        GUILayout.BeginArea(new Rect(0, 0, 400, 240));
-        if (GUILayoutUtility.GetRect(10, 50, 400, 240).Contains(Event.current.mousePosition))
-        {
-            onWindow = true;
-        }
-        else
-        {
-            onWindow = false;
-        }
-        GUILayout.EndArea();
-
-        GUILayout.BeginVertical();
-
-        //Shared GUI
-        GUILayout.Space(10f);
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("Area:", new GUILayoutOption[] { GUILayout.Width(75f) });
-        area = GUILayout.HorizontalSlider(area, 1f, 13f, new GUILayoutOption[] { GUILayout.Width(250f), GUILayout.Height(15f) });
-        GUILayout.Label((Mathf.Round(area * 100f) / 100f).ToString(), new GUILayoutOption[] { GUILayout.Width(250f), GUILayout.Height(20f) });
-        //Change brush texture size if area value was changed
-        if (GUI.changed)
-        {
-            brushScaling();
-        }
-        GUILayout.EndHorizontal();
-
-        GUILayout.Space(10f);
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("Strength:", new GUILayoutOption[] { GUILayout.Width(75f) });
-        strength = GUILayout.HorizontalSlider(strength, 1f, 13f, new GUILayoutOption[] { GUILayout.Width(250f), GUILayout.Height(15f) });
-        GUILayout.Label((Mathf.Round(strength * 100f) / 100f).ToString(), new GUILayoutOption[] { GUILayout.Width(250f), GUILayout.Height(20f) });
-        GUILayout.EndHorizontal();
-
-        //Deform GUI
-        GUILayout.Space(10);
-
-        deformMode = (DeformMode)GUILayout.Toolbar((int)deformMode, deformModeNames, GUILayout.Height(25));
-
-        GUILayout.Space(10);
-
-        GUILayout.BeginHorizontal();
-        if (GUILayout.Button("Reset Terrain Height", new GUILayoutOption[] { GUILayout.Height(30f) }))
-        {
-            tData.SetHeights(0, 0, saved);
-        }
-        GUILayout.EndHorizontal();
-
-        GUILayout.EndVertical();
     }
 
     void OnApplicationQuit()
